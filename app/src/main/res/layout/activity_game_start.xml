@@ -31,7 +31,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
             android:id="@+id/actorTextView" />
     </LinearLayout>
 
@@ -72,6 +71,5 @@
         android:layout_height="200dp"
         android:id="@+id/actorImageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/seats"
         android:layout_below="@+id/startLayout" />
 </RelativeLayout>

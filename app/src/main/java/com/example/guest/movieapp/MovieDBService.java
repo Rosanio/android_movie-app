@@ -22,17 +22,17 @@ import se.akerfeldt.okhttp.signpost.SigningInterceptor;
  */
 public class MovieDBService {
 
-    public static void findMovies(String movie, Callback callback) {
+    public static void findMovies(String id, Callback callback) {
         String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.MOVIE_DB_BASE_URL).newBuilder();
-        urlBuilder.addPathSegment("search");
-        urlBuilder.addPathSegment("movie");
+        urlBuilder.addPathSegment("person");
+        urlBuilder.addPathSegment(id);
+        urlBuilder.addPathSegment("movie_credits");
         urlBuilder.addQueryParameter(Constants.MOVIE_DB_API_KEY_QUERY_PARAMETER, Constants.MOVIE_DB_KEY);
-        urlBuilder.addQueryParameter("query", movie);
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -74,11 +74,13 @@ public class MovieDBService {
 
             if(response.isSuccessful()) {
                 JSONObject movieDBJSON = new JSONObject(jsonData);
-                JSONArray resultJSON = movieDBJSON.getJSONArray("results");
+                JSONArray resultJSON = movieDBJSON.getJSONArray("cast");
                 for(int i = 0; i < resultJSON.length(); i++) {
                     JSONObject movieJSON = resultJSON.getJSONObject(i);
-                    String title = movieJSON.getString("title").toString();
-                    Movie movie = new Movie(title);
+                    String title = movieJSON.getString("title");
+                    String movieId = movieJSON.getString("id");
+                    String movieUrl = "https://image.tmdb.org/t/p/w1280" + movieJSON.getString("poster_path");
+                    Movie movie = new Movie(title, movieUrl, movieId);
                     movies.add(movie);
                 }
             }
@@ -102,8 +104,9 @@ public class MovieDBService {
                 for(int i = 0; i < resultsJSON.length(); i++) {
                     JSONObject actorJSON = resultsJSON.getJSONObject(i);
                     String name = actorJSON.getString("name");
+                    String id = actorJSON.getString("id");
                     String imageUrl = "http://image.tmdb.org/t/p/original/" + actorJSON.getString("profile_path");
-                    Actor actor = new Actor(name, imageUrl);
+                    Actor actor = new Actor(name, imageUrl, id);
                     actors.add(actor);
                 }
             }

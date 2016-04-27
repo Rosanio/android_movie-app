@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +25,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class GameStartActivity extends AppCompatActivity {
+public class GameStartActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.actorTextView) TextView mActorNameTextView;
     @Bind(R.id.actorImageView) ImageView mActorImageView;
+    @Bind(R.id.moviesButton) Button mMoviesButton;
+
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
 
@@ -40,6 +46,8 @@ public class GameStartActivity extends AppCompatActivity {
         mContext = this;
 
         getActors();
+
+        mMoviesButton.setOnClickListener(this);
     }
 
     private void getActors() {
@@ -73,4 +81,14 @@ public class GameStartActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.moviesButton:
+                Intent intent = new Intent(GameStartActivity.this, MovieListActivity.class);
+                intent.putExtra("actor", Parcels.wrap(actor));
+                startActivity(intent);
+                break;
+        }
+    }
 }

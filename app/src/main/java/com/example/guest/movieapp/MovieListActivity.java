@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.widget.TextView;
+
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class MovieListActivity extends AppCompatActivity {
+    @Bind(R.id.actorTextView) TextView mActorTextView;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private MovieListAdapter mAdapter;
 
@@ -25,19 +28,22 @@ public class MovieListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.activity_movie_list);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
+        Actor actor = Parcels.unwrap(intent.getParcelableExtra("actor"));
 
-        getMovies(title);
+        mActorTextView.setText(actor.getName());
+
+
+        getMovies(actor.getActorId());
     }
 
-    private void getMovies(String title) {
+    private void getMovies(String id) {
         final MovieDBService movieDBService = new MovieDBService();
 
-        movieDBService.findMovies(title, new Callback() {
+        movieDBService.findMovies(id, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
