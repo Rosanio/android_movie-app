@@ -61,7 +61,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onResponse(Call call, Response response) {
-                mFamousActors = movieDBService.processActorResults(response);
+                mFamousActors = movieDBService.processActorResults(response, "results");
 
                 GameStartActivity.this.runOnUiThread(new Runnable() {
                     @Override
@@ -69,6 +69,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
                         int randomNumber = random.nextInt(mFamousActors.size());
                         actor = mFamousActors.get(randomNumber);
                         mActorNameTextView.setText(actor.getName());
+                        Log.d("imageural", actor.getImageUrl());
                         Picasso.with(mContext)
                                 .load(actor.getImageUrl())
                                 .resize(MAX_WIDTH, MAX_HEIGHT)

@@ -64,6 +64,27 @@ public class MovieDBService {
         call.enqueue(callback);
     }
 
+    public static void findActors(String id, Callback callback) {
+        String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.MOVIE_DB_BASE_URL).newBuilder();
+        urlBuilder.addPathSegment("movie");
+        urlBuilder.addPathSegment(id);
+        urlBuilder.addPathSegment("credits");
+        urlBuilder.addQueryParameter(Constants.MOVIE_DB_API_KEY_QUERY_PARAMETER, Constants.MOVIE_DB_KEY);
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+    }
+
 
     public ArrayList<Movie> processMovieResults(Response response) {
         ArrayList<Movie> movies = new ArrayList<>();
@@ -92,7 +113,7 @@ public class MovieDBService {
         return movies;
     }
 
-    public ArrayList<Actor> processActorResults(Response response) {
+    public ArrayList<Actor> processActorResults(Response response, String arrayName) {
         ArrayList<Actor> actors = new ArrayList<>();
 
         try{
@@ -100,7 +121,7 @@ public class MovieDBService {
             Log.d("actors", jsonData);
             if(response.isSuccessful()) {
                 JSONObject movieDBJSON = new JSONObject(jsonData);
-                JSONArray resultsJSON = movieDBJSON.getJSONArray("results");
+                JSONArray resultsJSON = movieDBJSON.getJSONArray(arrayName);
                 for(int i = 0; i < resultsJSON.length(); i++) {
                     JSONObject actorJSON = resultsJSON.getJSONObject(i);
                     String name = actorJSON.getString("name");

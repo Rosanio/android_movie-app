@@ -1,11 +1,15 @@
 package com.example.guest.movieapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int itemPosition = getLayoutPosition();
+                    Movie movie = mMovies.get(itemPosition);
+                    Intent intent = new Intent(mContext, ActorListActivity.class);
+                    intent.putExtra("movie", Parcels.wrap(movie));
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         public void bindMovie(Movie movie) {
