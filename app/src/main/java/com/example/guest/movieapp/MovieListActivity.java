@@ -45,7 +45,7 @@ public class MovieListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) {
-                mMovies = movieDBService.processResults(response);
+                mMovies = movieDBService.processMovieResults(response);
 
                 MovieListActivity.this.runOnUiThread(new Runnable() {
                     @Override

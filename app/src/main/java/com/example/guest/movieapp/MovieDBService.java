@@ -24,7 +24,6 @@ public class MovieDBService {
 
     public static void findMovies(String movie, Callback callback) {
         String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
-        Log.d("debug", movie);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
@@ -35,7 +34,6 @@ public class MovieDBService {
         urlBuilder.addQueryParameter(Constants.MOVIE_DB_API_KEY_QUERY_PARAMETER, Constants.MOVIE_DB_KEY);
         urlBuilder.addQueryParameter("query", movie);
         String url = urlBuilder.build().toString();
-        Log.d("url", url);
 
         Request request = new Request.Builder()
                 .url(url)
@@ -46,7 +44,28 @@ public class MovieDBService {
 
     }
 
-    public ArrayList<Movie> processResults(Response response) {
+    public static void findFamousActors(Callback callback) {
+        String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.MOVIE_DB_BASE_URL).newBuilder();
+        urlBuilder.addPathSegment("person");
+        urlBuilder.addPathSegment("popular");
+        urlBuilder.addQueryParameter(Constants.MOVIE_DB_API_KEY_QUERY_PARAMETER, Constants.MOVIE_DB_KEY);
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+    }
+
+
+    public ArrayList<Movie> processMovieResults(Response response) {
         ArrayList<Movie> movies = new ArrayList<>();
 
         try{
@@ -69,4 +88,6 @@ public class MovieDBService {
         }
         return movies;
     }
+
+    //todo: create processActors method
 }
