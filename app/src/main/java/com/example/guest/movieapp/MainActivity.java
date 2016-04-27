@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.submitSearchButton:
+            case R.id.startGameButton:
                 Intent intent = new Intent(MainActivity.this, GameStartActivity.class);
                 startActivity(intent);
                 break;

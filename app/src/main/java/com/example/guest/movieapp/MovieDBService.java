@@ -70,7 +70,8 @@ public class MovieDBService {
 
         try{
             String jsonData = response.body().string();
-            Log.d("data", jsonData);
+
+
             if(response.isSuccessful()) {
                 JSONObject movieDBJSON = new JSONObject(jsonData);
                 JSONArray resultJSON = movieDBJSON.getJSONArray("results");
@@ -89,5 +90,28 @@ public class MovieDBService {
         return movies;
     }
 
-    //todo: create processActors method
+    public ArrayList<Actor> processActorResults(Response response) {
+        ArrayList<Actor> actors = new ArrayList<>();
+
+        try{
+            String jsonData = response.body().string();
+            Log.d("actors", jsonData);
+            if(response.isSuccessful()) {
+                JSONObject movieDBJSON = new JSONObject(jsonData);
+                JSONArray resultsJSON = movieDBJSON.getJSONArray("results");
+                for(int i = 0; i < resultsJSON.length(); i++) {
+                    JSONObject actorJSON = resultsJSON.getJSONObject(i);
+                    String name = actorJSON.getString("name");
+                    String imageUrl = "http://image.tmdb.org/t/p/original/" + actorJSON.getString("profile_path");
+                    Actor actor = new Actor(name, imageUrl);
+                    actors.add(actor);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return actors;
+    }
 }
