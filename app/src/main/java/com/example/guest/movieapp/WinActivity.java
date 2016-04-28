@@ -12,7 +12,8 @@ import butterknife.ButterKnife;
 
 public class WinActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.playAgainButton) Button mPlayAgainButton;
-    @Bind(R.id.finalScoreTextView) TextView mFinalScoreTextView;
+    @Bind(R.id.scoreTextView) TextView mScoreTextView;
+    @Bind(R.id.degreesTextView) TextView mDegreesTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,9 @@ public class WinActivity extends AppCompatActivity implements View.OnClickListen
 
         Intent intent = getIntent();
         int score = intent.getIntExtra("score", 0);
-        mFinalScoreTextView.setText(""+score+ " degrees");
+        String degrees = intent.getStringExtra("degrees");
+        mScoreTextView.setText("Final Score: "+score+ " degrees");
+        mDegreesTextView.setText(degrees);
 
         mPlayAgainButton.setOnClickListener(this);
 

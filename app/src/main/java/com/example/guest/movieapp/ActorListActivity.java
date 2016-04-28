@@ -23,6 +23,7 @@ public class ActorListActivity extends AppCompatActivity {
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private ActorListAdapter mAdapter;
     int score;
+    String degrees;
 
     public ArrayList<Actor> mActors;
 
@@ -36,6 +37,7 @@ public class ActorListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Movie movie = Parcels.unwrap(intent.getParcelableExtra("movie"));
         score = intent.getIntExtra("score", 0);
+        degrees = intent.getStringExtra("degrees");
         String title = movie.getTitle();
 
         mMovieTitleTextView.setText(title);
@@ -59,7 +61,7 @@ public class ActorListActivity extends AppCompatActivity {
                 ActorListActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter = new ActorListAdapter(getApplicationContext(), mActors, score);
+                        mAdapter = new ActorListAdapter(getApplicationContext(), mActors, score, degrees);
                         mRecyclerView.setAdapter(mAdapter);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ActorListActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);

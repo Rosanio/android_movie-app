@@ -20,7 +20,10 @@
         <activity android:name=".MovieListActivity" />
         <activity android:name=".GameStartActivity" />
         <activity android:name=".ActorListActivity" />
-        <activity android:name=".WinActivity"></activity>
+        <activity
+            android:name=".WinActivity"
+            android:theme="@style/NoActionBarTheme">
+        </activity>
     </application>
 
 </manifest>

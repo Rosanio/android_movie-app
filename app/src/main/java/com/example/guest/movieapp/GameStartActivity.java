@@ -30,6 +30,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.actorImageView) ImageView mActorImageView;
     @Bind(R.id.moviesButton) Button mMoviesButton;
     int score = 0;
+    String degrees = "";
 
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
@@ -70,7 +71,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
                         int randomNumber = random.nextInt(mFamousActors.size());
                         actor = mFamousActors.get(randomNumber);
                         mActorNameTextView.setText(actor.getName());
-                        Log.d("imageural", actor.getImageUrl());
+                        degrees += actor.getName() + " was in ";
                         Picasso.with(mContext)
                                 .load(actor.getImageUrl())
                                 .resize(MAX_WIDTH, MAX_HEIGHT)
@@ -90,6 +91,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent(GameStartActivity.this, MovieListActivity.class);
                 intent.putExtra("score", score);
                 intent.putExtra("actor", Parcels.wrap(actor));
+                intent.putExtra("degrees", degrees);
                 startActivity(intent);
                 break;
         }

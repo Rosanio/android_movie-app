@@ -23,11 +23,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     private Context mContext;
     private ArrayList<Movie> mMovies = new ArrayList<>();
     int score;
+    String degrees;
 
-    public MovieListAdapter(Context context, ArrayList<Movie> movies, int activityScore) {
+    public MovieListAdapter(Context context, ArrayList<Movie> movies, int activityScore, String activityDegrees) {
         mContext = context;
         mMovies = movies;
         score = activityScore;
+        degrees = activityDegrees;
     }
 
     @Override
@@ -60,10 +62,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                 public void onClick(View v) {
                     int itemPosition = getLayoutPosition();
                     Movie movie = mMovies.get(itemPosition);
+                    degrees += movie.getTitle() + " with ";
                     Intent intent = new Intent(mContext, ActorListActivity.class);
                     intent.putExtra("movie", Parcels.wrap(movie));
                     intent.putExtra("score", score);
-
+                    intent.putExtra("degrees", degrees);
                     mContext.startActivity(intent);
                 }
             });

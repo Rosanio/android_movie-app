@@ -28,11 +28,13 @@ public class ActorListAdapter extends RecyclerView.Adapter<ActorListAdapter.Acto
     private Context mContext;
     private ArrayList<Actor> mActors = new ArrayList<>();
     int score;
+    String degrees;
 
-    public ActorListAdapter(Context context, ArrayList<Actor> actors, int activityScore) {
+    public ActorListAdapter(Context context, ArrayList<Actor> actors, int activityScore, String activityDegrees) {
         mContext = context;
         mActors = actors;
         score = activityScore;
+        degrees = activityDegrees;
     }
 
     @Override
@@ -67,13 +69,17 @@ public class ActorListAdapter extends RecyclerView.Adapter<ActorListAdapter.Acto
                     int itemPosition = getLayoutPosition();
                     Actor actor = mActors.get(itemPosition);
                     if(actor.getName().equals("Kevin Bacon")) {
+                        degrees += actor.getName() + ".";
                         Intent intent = new Intent(mContext, WinActivity.class);
                         intent.putExtra("score", score);
+                        intent.putExtra("degrees", degrees);
                         mContext.startActivity(intent);
                     } else {
+                        degrees += actor.getName() + ", who was in ";
                         Intent intent = new Intent(mContext, MovieListActivity.class);
                         intent.putExtra("actor", Parcels.wrap(actor));
                         intent.putExtra("score", score);
+                        intent.putExtra("degrees", degrees);
                         mContext.startActivity(intent);
                     }
 
