@@ -44,6 +44,10 @@ public class MovieListActivity extends AppCompatActivity {
         getMovies(actor.getActorId());
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private void getMovies(String id) {
         final MovieDBService movieDBService = new MovieDBService();
 

@@ -45,6 +45,10 @@ public class ActorListActivity extends AppCompatActivity {
         getActors(movie.getMovieId());
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private void getActors(String id) {
         final MovieDBService actorDBService = new MovieDBService();
 
@@ -53,6 +57,7 @@ public class ActorListActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
             }
+
 
             @Override
             public void onResponse(Call call, Response response) {
