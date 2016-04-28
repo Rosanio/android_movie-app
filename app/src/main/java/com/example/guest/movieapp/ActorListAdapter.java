@@ -62,9 +62,15 @@ public class ActorListAdapter extends RecyclerView.Adapter<ActorListAdapter.Acto
                 public void onClick(View v) {
                     int itemPosition = getLayoutPosition();
                     Actor actor = mActors.get(itemPosition);
-                    Intent intent = new Intent(mContext, MovieListActivity.class);
-                    intent.putExtra("actor", Parcels.wrap(actor));
-                    mContext.startActivity(intent);
+                    if(actor.getName().equals("Kevin Bacon")) {
+                        Intent intent = new Intent(mContext, WinActivity.class);
+                        mContext.startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mContext, MovieListActivity.class);
+                        intent.putExtra("actor", Parcels.wrap(actor));
+                        mContext.startActivity(intent);
+                    }
+
                 }
             });
         }

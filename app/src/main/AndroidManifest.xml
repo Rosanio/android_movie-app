@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".MovieListActivity" />
         <activity android:name=".GameStartActivity" />
-        <activity android:name=".ActorListActivity"></activity>
+        <activity android:name=".ActorListActivity" />
+        <activity android:name=".WinActivity"></activity>
     </application>
 
 </manifest>
