@@ -57,7 +57,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     private void getActors() {
         final MovieDBService movieDBService = new MovieDBService();
 
-        movieDBService.findFamousActors(0, new Callback() {
+        movieDBService.findFamousActors(1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -66,7 +66,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onResponse(Call call, Response response) {
                 mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
-                movieDBService.findFamousActors(1, new Callback() {
+                movieDBService.findFamousActors(2, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         e.printStackTrace();
@@ -75,6 +75,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
+                        Log.d("ACTORS", ""+mFamousActors.size());
 
                         callbackComplete = true;
 
@@ -94,8 +95,6 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
                         });
                     }
                 });
-
-                Log.d("ACTORS", mFamousActors.toString());
 
             }
         });

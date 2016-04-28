@@ -45,14 +45,13 @@ public class MovieDBService {
     }
 
     public static void findFamousActors(int pageNumber, Callback callback) {
-        String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
-
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.MOVIE_DB_BASE_URL).newBuilder();
         urlBuilder.addPathSegment("person");
         urlBuilder.addPathSegment("popular");
+        urlBuilder.addQueryParameter("page", ""+pageNumber);
         urlBuilder.addQueryParameter(Constants.MOVIE_DB_API_KEY_QUERY_PARAMETER, Constants.MOVIE_DB_KEY);
         String url = urlBuilder.build().toString();
 
@@ -117,10 +116,10 @@ public class MovieDBService {
 
         try{
             String jsonData = response.body().string();
-            Log.d("actors", jsonData);
             if(response.isSuccessful()) {
                 JSONObject movieDBJSON = new JSONObject(jsonData);
                 JSONArray resultsJSON = movieDBJSON.getJSONArray(arrayName);
+                Log.d("RESULTS", jsonData);
                 for(int i = 0; i < resultsJSON.length(); i++) {
                     JSONObject actorJSON = resultsJSON.getJSONObject(i);
                     String name = actorJSON.getString("name");
