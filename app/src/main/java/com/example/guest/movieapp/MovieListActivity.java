@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -22,6 +23,7 @@ public class MovieListActivity extends AppCompatActivity {
     @Bind(R.id.actorTextView) TextView mActorTextView;
     @Bind(R.id.recyclerView) RecyclerView mRecyclerView;
     private MovieListAdapter mAdapter;
+    int score;
 
     public ArrayList<Movie> mMovies = new ArrayList<>();
 
@@ -33,7 +35,7 @@ public class MovieListActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Actor actor = Parcels.unwrap(intent.getParcelableExtra("actor"));
-
+        score = intent.getIntExtra("score", 0);
         mActorTextView.setText(actor.getName());
 
 
@@ -56,7 +58,7 @@ public class MovieListActivity extends AppCompatActivity {
                 MovieListActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter = new MovieListAdapter(getApplicationContext(), mMovies);
+                        mAdapter = new MovieListAdapter(getApplicationContext(), mMovies, score);
                         mRecyclerView.setAdapter(mAdapter);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MovieListActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);

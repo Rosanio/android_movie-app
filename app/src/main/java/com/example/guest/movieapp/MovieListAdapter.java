@@ -22,10 +22,12 @@ import butterknife.ButterKnife;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
     private Context mContext;
     private ArrayList<Movie> mMovies = new ArrayList<>();
+    int score;
 
-    public MovieListAdapter(Context context, ArrayList<Movie> movies) {
+    public MovieListAdapter(Context context, ArrayList<Movie> movies, int activityScore) {
         mContext = context;
         mMovies = movies;
+        score = activityScore;
     }
 
     @Override
@@ -60,6 +62,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     Movie movie = mMovies.get(itemPosition);
                     Intent intent = new Intent(mContext, ActorListActivity.class);
                     intent.putExtra("movie", Parcels.wrap(movie));
+                    intent.putExtra("score", score);
+
                     mContext.startActivity(intent);
                 }
             });

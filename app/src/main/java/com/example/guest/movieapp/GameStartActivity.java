@@ -29,6 +29,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.actorTextView) TextView mActorNameTextView;
     @Bind(R.id.actorImageView) ImageView mActorImageView;
     @Bind(R.id.moviesButton) Button mMoviesButton;
+    int score = 0;
 
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
@@ -87,6 +88,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
         switch(v.getId()) {
             case R.id.moviesButton:
                 Intent intent = new Intent(GameStartActivity.this, MovieListActivity.class);
+                intent.putExtra("score", score);
                 intent.putExtra("actor", Parcels.wrap(actor));
                 startActivity(intent);
                 break;

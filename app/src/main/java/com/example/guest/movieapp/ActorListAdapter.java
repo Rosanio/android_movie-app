@@ -6,6 +6,7 @@ package com.example.guest.movieapp;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +27,12 @@ import butterknife.ButterKnife;
 public class ActorListAdapter extends RecyclerView.Adapter<ActorListAdapter.ActorViewHolder> {
     private Context mContext;
     private ArrayList<Actor> mActors = new ArrayList<>();
+    int score;
 
-    public ActorListAdapter(Context context, ArrayList<Actor> actors) {
+    public ActorListAdapter(Context context, ArrayList<Actor> actors, int activityScore) {
         mContext = context;
         mActors = actors;
+        score = activityScore;
     }
 
     @Override
@@ -60,14 +63,17 @@ public class ActorListAdapter extends RecyclerView.Adapter<ActorListAdapter.Acto
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    score++;
                     int itemPosition = getLayoutPosition();
                     Actor actor = mActors.get(itemPosition);
                     if(actor.getName().equals("Kevin Bacon")) {
                         Intent intent = new Intent(mContext, WinActivity.class);
+                        intent.putExtra("score", score);
                         mContext.startActivity(intent);
                     } else {
                         Intent intent = new Intent(mContext, MovieListActivity.class);
                         intent.putExtra("actor", Parcels.wrap(actor));
+                        intent.putExtra("score", score);
                         mContext.startActivity(intent);
                     }
 

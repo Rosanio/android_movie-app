@@ -34,8 +34,17 @@
         android:layout_height="wrap_content"
         android:text="Final Score:"
         android:id="@+id/textView"
+        android:textSize="30sp"
         android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="score"
+        android:id="@+id/finalScoreTextView"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
-        android:textSize="30sp" />
+        android:textSize="40dp"
+        android:textStyle="bold" />
 </RelativeLayout>
