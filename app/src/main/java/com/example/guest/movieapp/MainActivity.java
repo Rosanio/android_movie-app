@@ -12,8 +12,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.movieTitleEditText) TextView mMovieTitleEditText;
-    @Bind(R.id.submitSearchButton) Button mSubmitSearchButton;
+    @Bind(R.id.startGameButton) Button mStartGameButton;
 
 
     @Override
@@ -22,18 +21,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mSubmitSearchButton.setOnClickListener(this);
+        mStartGameButton.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.submitSearchButton:
-                String title = mMovieTitleEditText.getText().toString();
-                Intent intent = new Intent(MainActivity.this, MovieListActivity.class);
-
-                intent.putExtra("title", title);
+            case R.id.startGameButton:
+                Intent intent = new Intent(MainActivity.this, GameStartActivity.class);
                 startActivity(intent);
                 break;
         }

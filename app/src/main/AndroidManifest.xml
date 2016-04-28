@@ -17,7 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MovieListActivity"></activity>
+        <activity android:name=".MovieListActivity" />
+        <activity android:name=".GameStartActivity" />
+        <activity android:name=".ActorListActivity" />
+        <activity
+            android:name=".WinActivity"
+            android:theme="@style/NoActionBarTheme">
+        </activity>
     </application>
 
 </manifest>

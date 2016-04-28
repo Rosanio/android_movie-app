@@ -1,11 +1,15 @@
 package com.example.guest.movieapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -18,10 +22,14 @@ import butterknife.ButterKnife;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
     private Context mContext;
     private ArrayList<Movie> mMovies = new ArrayList<>();
+    int score;
+    String degrees;
 
-    public MovieListAdapter(Context context, ArrayList<Movie> movies) {
+    public MovieListAdapter(Context context, ArrayList<Movie> movies, int activityScore, String activityDegrees) {
         mContext = context;
         mMovies = movies;
+        score = activityScore;
+        degrees = activityDegrees;
     }
 
     @Override
@@ -49,6 +57,19 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int itemPosition = getLayoutPosition();
+                    Movie movie = mMovies.get(itemPosition);
+                    degrees += movie.getTitle() + " with ";
+                    Intent intent = new Intent(mContext, ActorListActivity.class);
+                    intent.putExtra("movie", Parcels.wrap(movie));
+                    intent.putExtra("score", score);
+                    intent.putExtra("degrees", degrees);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         public void bindMovie(Movie movie) {

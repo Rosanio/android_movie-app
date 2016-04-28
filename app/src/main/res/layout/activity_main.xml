@@ -17,7 +17,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Internal Cinema Universe Productions"
+        android:text="Six-Degrees to Kevin Bacon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -28,27 +28,11 @@
         android:gravity="center"
         android:textColor="@color/colorTextIcons" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieTitleEditText"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="82dp"
-        android:hint="movie title"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_alignRight="@+id/appTitleTextView"
-        android:layout_alignEnd="@+id/appTitleTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textColor="@color/colorTextIcons"
-        android:textColorHint="@color/colorTextIcons" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:id="@+id/submitSearchButton"
+        android:text="Start"
+        android:id="@+id/startGameButton"
         android:layout_alignBottom="@+id/imageView"
         android:layout_alignLeft="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
@@ -56,7 +40,8 @@
         android:layout_alignEnd="@+id/imageView"
         android:background="@drawable/search_button"
         android:textColor="@color/colorTextIcons"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="25sp" />
 
 
 </RelativeLayout>
