@@ -61,7 +61,7 @@ public class ActorListActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) {
-                mActors = actorDBService.processActorResults(response, "cast");
+                mActors = actorDBService.processActorResults(response, "cast", mActors);
 
                 ActorListActivity.this.runOnUiThread(new Runnable() {
                     @Override

@@ -57,7 +57,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     private void getActors() {
         final MovieDBService movieDBService = new MovieDBService();
 
-        movieDBService.findFamousActors(new Callback() {
+        movieDBService.findFamousActors(0, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -65,23 +65,38 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onResponse(Call call, Response response) {
-                mFamousActors = movieDBService.processActorResults(response, "results");
-                callbackComplete = true;
-
-                GameStartActivity.this.runOnUiThread(new Runnable() {
+                mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
+                movieDBService.findFamousActors(1, new Callback() {
                     @Override
-                    public void run() {
-                        int randomNumber = random.nextInt(mFamousActors.size());
-                        actor = mFamousActors.get(randomNumber);
-                        mActorNameTextView.setText(actor.getName());
-                        degrees += actor.getName() + " was in ";
-                        Picasso.with(mContext)
-                                .load(actor.getImageUrl())
-                                .resize(MAX_WIDTH, MAX_HEIGHT)
-                                .centerCrop()
-                                .into(mActorImageView);
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
+
+                        callbackComplete = true;
+
+                        GameStartActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int randomNumber = random.nextInt(mFamousActors.size());
+                                actor = mFamousActors.get(randomNumber);
+                                mActorNameTextView.setText(actor.getName());
+                                degrees += actor.getName() + " was in ";
+                                Picasso.with(mContext)
+                                        .load(actor.getImageUrl())
+                                        .resize(MAX_WIDTH, MAX_HEIGHT)
+                                        .centerCrop()
+                                        .into(mActorImageView);
+                            }
+                        });
                     }
                 });
+
+                Log.d("ACTORS", mFamousActors.toString());
+
             }
         });
 

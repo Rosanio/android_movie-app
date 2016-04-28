@@ -44,7 +44,7 @@ public class MovieDBService {
 
     }
 
-    public static void findFamousActors(Callback callback) {
+    public static void findFamousActors(int pageNumber, Callback callback) {
         String MOVIE_DB_KEY = Constants.MOVIE_DB_KEY;
 
         OkHttpClient client = new OkHttpClient.Builder()
@@ -113,8 +113,7 @@ public class MovieDBService {
         return movies;
     }
 
-    public ArrayList<Actor> processActorResults(Response response, String arrayName) {
-        ArrayList<Actor> actors = new ArrayList<>();
+    public ArrayList<Actor> processActorResults(Response response, String arrayName, ArrayList<Actor> actorsArray) {
 
         try{
             String jsonData = response.body().string();
@@ -128,7 +127,7 @@ public class MovieDBService {
                     String id = actorJSON.getString("id");
                     String imageUrl = "http://image.tmdb.org/t/p/original/" + actorJSON.getString("profile_path");
                     Actor actor = new Actor(name, imageUrl, id);
-                    actors.add(actor);
+                    actorsArray.add(actor);
                 }
             }
         } catch (IOException e) {
@@ -136,6 +135,6 @@ public class MovieDBService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return actors;
+        return actorsArray;
     }
 }
