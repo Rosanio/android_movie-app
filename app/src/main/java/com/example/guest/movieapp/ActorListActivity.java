@@ -45,6 +45,10 @@ public class ActorListActivity extends AppCompatActivity {
         getActors(movie.getMovieId());
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private void getActors(String id) {
         final MovieDBService actorDBService = new MovieDBService();
 
@@ -54,9 +58,10 @@ public class ActorListActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+
             @Override
             public void onResponse(Call call, Response response) {
-                mActors = actorDBService.processActorResults(response, "cast");
+                mActors = actorDBService.processActorResults(response, "cast", mActors);
 
                 ActorListActivity.this.runOnUiThread(new Runnable() {
                     @Override

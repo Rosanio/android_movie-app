@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +32,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.moviesButton) Button mMoviesButton;
     int score = 0;
     String degrees = "";
+    boolean callbackComplete = false;
 
     private static final int MAX_WIDTH = 400;
     private static final int MAX_HEIGHT = 300;
@@ -55,7 +57,7 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     private void getActors() {
         final MovieDBService movieDBService = new MovieDBService();
 
-        movieDBService.findFamousActors(new Callback() {
+        movieDBService.findFamousActors(1, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -63,22 +65,37 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onResponse(Call call, Response response) {
-                mFamousActors = movieDBService.processActorResults(response, "results");
-
-                GameStartActivity.this.runOnUiThread(new Runnable() {
+                mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
+                movieDBService.findFamousActors(2, new Callback() {
                     @Override
-                    public void run() {
-                        int randomNumber = random.nextInt(mFamousActors.size());
-                        actor = mFamousActors.get(randomNumber);
-                        mActorNameTextView.setText(actor.getName());
-                        degrees += actor.getName() + " was in ";
-                        Picasso.with(mContext)
-                                .load(actor.getImageUrl())
-                                .resize(MAX_WIDTH, MAX_HEIGHT)
-                                .centerCrop()
-                                .into(mActorImageView);
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        mFamousActors = movieDBService.processActorResults(response, "results", mFamousActors);
+                        Log.d("ACTORS", ""+mFamousActors.size());
+
+                        callbackComplete = true;
+
+                        GameStartActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                int randomNumber = random.nextInt(mFamousActors.size());
+                                actor = mFamousActors.get(randomNumber);
+                                mActorNameTextView.setText(actor.getName());
+                                degrees += actor.getName() + " was in ";
+                                Picasso.with(mContext)
+                                        .load(actor.getImageUrl())
+                                        .resize(MAX_WIDTH, MAX_HEIGHT)
+                                        .centerCrop()
+                                        .into(mActorImageView);
+                            }
+                        });
                     }
                 });
+
             }
         });
 
@@ -88,11 +105,16 @@ public class GameStartActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.moviesButton:
-                Intent intent = new Intent(GameStartActivity.this, MovieListActivity.class);
-                intent.putExtra("score", score);
-                intent.putExtra("actor", Parcels.wrap(actor));
-                intent.putExtra("degrees", degrees);
-                startActivity(intent);
+                if (callbackComplete) {
+                    Intent intent = new Intent(GameStartActivity.this, MovieListActivity.class);
+                    intent.putExtra("score", score);
+                    intent.putExtra("actor", Parcels.wrap(actor));
+                    intent.putExtra("degrees", degrees);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(GameStartActivity.this, "loading...", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
